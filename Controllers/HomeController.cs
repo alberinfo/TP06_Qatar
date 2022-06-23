@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using TP06_Qatar.Models;
 
@@ -11,11 +13,19 @@ namespace TP06_Qatar.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        private IWebHostEnviroment Enviroment;
+
+        public HomeController(IWebHostEnviroment enviroment)
+        {
+            Enviroment = enviroment
         }
 
         public IActionResult Index()
@@ -45,10 +55,20 @@ namespace TP06_Qatar.Controllers
             ViewBag.IdEquipo = IdEquipo;
             return View("PlayerForm")
         }
-        public [HttpPost] IActionResult GuardarJugador(Jugador){
-            BD.AgregarJugador(Jugador);
-
-            return RedirectToAction("VerDetalleEquipo", new {int IdEquipo});
+        [HttpPost] 
+        public IActionResult GuardarJugador(Jugador Jug, IFormFile ArchivoFoto){
+            if(ArchivoFoto.Length>0)
+            {
+                string wwwRootLocal = this.Enviroment.ContentRoothPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
+                using(var stream = System.IO.File.Create(wwwRootLocal))
+                {
+                    (ArchivoFoto).CopyToAsync(stream);
+                }
+                Jug.Foto = ArchivoFoto.FileName;
+            }
+            BD.AgregarJugador(Jug);
+            
+            return RedirectToAction("VerDetalleEquipo", new {int Jug.IdEquipo});
         }
 
         public IActionResult EliminarJugador(int IdJugador, int IdEquipo){
