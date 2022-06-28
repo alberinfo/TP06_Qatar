@@ -1,9 +1,8 @@
-using TP06_Qatar.csproj;
-using System.Collection.Generic;
-
-namespace TP06_Qatar.models
+using System.Collections.Generic;
+using System;
+namespace TP06_Qatar.Models
 {
-    class Equipo
+    public class Equipo
     {
         private int _idEquipo;
         private string _nombre;
@@ -48,7 +47,7 @@ namespace TP06_Qatar.models
             set { CopasGanadas = value; }
         }
 
-        Equipo()
+        public Equipo()
         {
             IdEquipo = -1;
             Nombre = "";
@@ -58,7 +57,7 @@ namespace TP06_Qatar.models
             CopasGanadas = 0;
         }
 
-        Equipo(int id, string nom, string esc, string cam, string cont, int cop)
+        public Equipo(int id, string nom, string esc, string cam, string cont, int cop)
         {
             IdEquipo = id;
             Nombre = nom;

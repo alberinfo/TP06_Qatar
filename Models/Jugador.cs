@@ -1,9 +1,9 @@
-using TP06_Qatar.csproj;
-using System.Collection.Generic;
+using System;
+using System.Collections.Generic;
 
-namespace TP06_Qatar.models
+namespace TP06_Qatar.Models
 {
-    class Jugador
+    public class Jugador
     {
         private int _idJugador;
         private int _idEquipo;
@@ -48,7 +48,7 @@ namespace TP06_Qatar.models
             set { _equipoActual = value; }
         }
 
-        Jugador()
+        public Jugador()
         {
             IdJugador = -1;
             IdEquipo = -1;
@@ -58,14 +58,5 @@ namespace TP06_Qatar.models
             EquipoActual = "";
         }
 
-        Equipo(int idj, int ide, string nom, DateTime fna, string foto, string equipo)
-        {
-            IdJugador = idj;
-            IdEquipo = ide;
-            Nombre = nom;
-            FechaNacimiento = fna; //Good luck with this
-            Foto = foto;
-            EquipoActual = equipo;
-        }
     }
 }

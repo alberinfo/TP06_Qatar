@@ -1,11 +1,11 @@
-using TP06_Qatar.csproj;
-using System.Collection.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
 
-namespace TP06_Qatar.Services
+namespace TP06_Qatar.Models
 {
-    static class BD
+    public static class BD
     {
         private static string _connectionString = @"Server=A-BTA-02\SQLEXPRESS;DataBase=TP06_Qatar;TrustedConnection=True";
 
