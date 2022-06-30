@@ -8,7 +8,7 @@ namespace TP06_Qatar.Models
         private string _nombre;
         private string _escudo;
         private string _camiseta;
-        private string _continente;
+        private string _Continente;
         private int _copasGanadas;
 
         public int IdEquipo
@@ -19,32 +19,32 @@ namespace TP06_Qatar.Models
 
         public string Nombre
         {
-            get { return Nombre; }
-            set { Nombre = value; }
+            get { return _nombre; }
+            set { _nombre = value; }
         }
 
         public string Escudo
         {
-            get { return Escudo; }
-            set { Escudo = value; }
+            get { return _escudo; }
+            set { _escudo = value; }
         }
 
         public string Camiseta
         {
-            get { return Camiseta; }
-            set { Camiseta = value; }
+            get { return _camiseta; }
+            set { _camiseta = value; }
         }
 
         public string Continente
         {
-            get { return Continente; }
-            set { Continente = value; }
+            get { return _Continente; }
+            set { _Continente = value; }
         }
 
         public int CopasGanadas
         {
-            get { return CopasGanadas; }
-            set { CopasGanadas = value; }
+            get { return _copasGanadas; }
+            set { _copasGanadas = value; }
         }
 
         public Equipo()

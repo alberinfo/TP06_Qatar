@@ -19,6 +19,15 @@ namespace TP06_Qatar.Models
             }
         }
 
+        public static void AgregarEquipo(Equipo eq)
+        {
+            using(SqlConnection db = new SqlConnection(_connectionString))
+            {
+                string sqlQuery = "INSERT INTO Equipos (Nombre, Escudo, Camiseta, IdContinente, CopasGanadas) VALUES(@IdEquipo, @Nombre, @FechaNacimiento, @Foto, @EquipoActual)";
+                int affectedRows = db.Execute(sqlQuery, new {Nombre = eq.Nombre, Escudo = eq.Escudo, Camiseta = eq.Camiseta, IdContinente = eq.Continente, CopasGanadas = eq.CopasGanadas});
+            }
+        }
+
         public static void EliminarJugador(int idJugador)
         {
             using(SqlConnection db = new SqlConnection(_connectionString))

@@ -37,6 +37,27 @@ namespace TP06_Qatar.Controllers
             return View("DetalleEquipo");
         }
 
+        public IActionResult AgregarJugador()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GuardarEquipo(Equipo eq, IFormFile ArchivoFoto)
+        {
+            if(ArchivoFoto.Length>0)
+            {
+                string wwwRootLocal = this.Environment.WebRootPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
+                using(var stream = System.IO.File.Create(wwwRootLocal))
+                {
+                    (ArchivoFoto).CopyToAsync(stream);
+                }
+                eq.Escudo = ArchivoFoto.FileName;
+            }
+            BD.AgregarEquipo(eq);
+            return Index();
+        }
+
         public IActionResult VerDetalleJugador(int IdJugador){  
             ViewBag.DatosJugador = BD.VerInfoJugador(IdJugador);
 
@@ -60,12 +81,12 @@ namespace TP06_Qatar.Controllers
             }
             BD.AgregarJugador(Jug);
             
-            return RedirectToAction("VerDetalleEquipo", new {Jug.IdEquipo});
+            return VerDetalleEquipo(Jug.IdEquipo);
         }
 
         public IActionResult EliminarJugador(int IdJugador, int IdEquipo){
             BD.EliminarJugador(IdJugador);
-            return RedirectToAction("VerDetalleEquipo", new {IdEquipo});
+            return VerDetalleEquipo(IdEquipo);
         }
 
         public IActionResult Privacy()
