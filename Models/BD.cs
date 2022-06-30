@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
+using Dapper;
 
 namespace TP06_Qatar.Models
 {
     public static class BD
     {
-        private static string _connectionString = @"Server=A-BTA-02\SQLEXPRESS;DataBase=TP06_Qatar;TrustedConnection=True";
+        private static string _connectionString = @"Server=A-CIDI-106;DataBase=Qatar;Trusted_Connection=True";
 
         public static void AgregarJugador(Jugador jug)
         {
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
                 string sqlQuery = "INSERT INTO Jugadores (IdEquipo, Nombre, FechaNacimiento, Foto, EquipoActual) VALUES(@IdEquipo, @Nombre, @FechaNacimiento, @Foto, @EquipoActual)";
-                int affectedRows = db.Execute<Jugador>(sqlQuery , new {idEquipo = jug.IdEquipo, Nombre = jug.Nombre, FechaNacimiento = Jug.FechaNacimiento, Foto = Jug.Foto, EquipoActual = Jug.EquipoActual});
+                int affectedRows = db.Execute(sqlQuery , new {IdEquipo = jug.IdEquipo, Nombre = jug.Nombre, FechaNacimiento = jug.FechaNacimiento, Foto = jug.Foto, EquipoActual = jug.EquipoActual});
             }
         }
 
@@ -23,7 +24,7 @@ namespace TP06_Qatar.Models
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
                 string sqlQuery = "DELETE FROM Jugadores WHERE IdJugador = @pidJugador";
-                int affectedRows = db.Execute<Jugador>(sqlQuery , new {pidJugador = idJugador});
+                int affectedRows = db.Execute(sqlQuery , new {pidJugador = idJugador});
             } 
         }
 
@@ -54,8 +55,8 @@ namespace TP06_Qatar.Models
             List<Equipo> _MiEquipo = null;
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
-                string sqlQuery = "SELECT * FROM Jugadores";
-                _MiEquipo = db.Query<Equipos>(sqlQuery, new{pidEquipo = idEquipo}).ToList();
+                string sqlQuery = "SELECT * FROM Equipos";
+                _MiEquipo = db.Query<Equipo>(sqlQuery).ToList();
             }
             return _MiEquipo;
         }

@@ -25,10 +25,7 @@ namespace TP06_Qatar.Controllers
 
         public IActionResult Index()
         {
-            List<Equipos> ListTeams = new List<Equipos>();
-            ListTeams = BD.ListarEquipos();
-
-            ViewBag.ListaDeEquipos = ListTeams;
+            ViewBag.ListaDeEquipos = BD.ListarEquipos();
             return View();
         }
 
@@ -41,7 +38,7 @@ namespace TP06_Qatar.Controllers
         }
 
         public IActionResult VerDetalleJugador(int IdJugador){  
-            ViewBag.DatosJugador = BD.VerDetalleJugador(IdJugador);
+            ViewBag.DatosJugador = BD.VerInfoJugador(IdJugador);
 
             return View("DetalleJugador");
         }
@@ -54,7 +51,7 @@ namespace TP06_Qatar.Controllers
         public IActionResult GuardarJugador(Jugador Jug, IFormFile ArchivoFoto){
             if(ArchivoFoto.Length>0)
             {
-                string wwwRootLocal = this.Enviroment.ContentRoothPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
+                string wwwRootLocal = this.Environment.WebRootPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
                 using(var stream = System.IO.File.Create(wwwRootLocal))
                 {
                     (ArchivoFoto).CopyToAsync(stream);
@@ -67,7 +64,7 @@ namespace TP06_Qatar.Controllers
         }
 
         public IActionResult EliminarJugador(int IdJugador, int IdEquipo){
-            BD.EliminarJugador(idJugador);
+            BD.EliminarJugador(IdJugador);
             return RedirectToAction("VerDetalleEquipo", new {IdEquipo});
         }
 
