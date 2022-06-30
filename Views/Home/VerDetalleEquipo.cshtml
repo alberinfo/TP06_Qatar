@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "@ViewBag.DatosEquipo.Nombre";
+}
+
+<div class="jumbotron">
+  <img src="@ViewBag.DatosEquipo.Escudo">
+  <h1 class="display-4">@ViewBag.DatosEquipo.Nombre</h1>
+  <p class="lead">Continente: @ViewBag.DatosEquipo.Continente</p>
+  <p class="lead">Copas Ganadas: @ViewBag.DatosEquipo.CopasGanadas</p>
+  <hr class="my-4">
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href='Url.Action("AgregarJugador", "Home", @ViewBag.DatosEquipo.IdEquipo)' role="button">Agregar Jugador</a>
+  </p>
+</div>
