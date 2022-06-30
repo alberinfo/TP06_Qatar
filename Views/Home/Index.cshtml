@@ -3,12 +3,12 @@
 }
 
 @{
-    foreach(Equipo in ViewBag.ListaDeEquipos){
+    foreach(Equipo eq in @ViewBag.ListaDeEquipos){
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@Equipo.Escudo" alt="Card image cap">
+        <img class="card-img-top" src=@eq.Escudo alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">@Equipo.Nombre</h5>
-            <a href=Url.Action("VerDetalleEquipo", "Home", @Equipo.IdEquipo) class="btn btn-primary">Ver Detalle Equipo</a>
+            <h5 class="card-title">@eq.Nombre</h5>
+            <a href=Url.Action("VerDetalleEquipo", "Home", @eq.IdEquipo) class="btn btn-primary">Ver Detalle Equipo</a>
         </div>
     </div>
     }
