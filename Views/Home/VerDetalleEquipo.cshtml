@@ -29,11 +29,9 @@
     foreach(Jugador jug in @ViewBag.ListaJugadores){
       <tbody>
         <tr>
+          <td>@jug.NumCamiseta</td>
           <td height=100 width=100><img src="@jug.Foto" height=100 width=100></td>
-
           <td>@jug.Nombre</td>
-          <td>@jug.FechaNacimiento.ToString()</td>
-          <td>@jug.EquipoActual</td>
         </tr>
       </tbody>
     }
