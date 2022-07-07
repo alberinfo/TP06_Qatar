@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "@ViewBag.DatosEquipo.Nombre";
-} 
+}
+@{
 <html>
       <head>
         <!-- Import bootstrap cdn -->
@@ -10,7 +11,7 @@
     "sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
             crossorigin="anonymous">
     </head>
-
+  <body>
   <div class="jumbotron">  
     <div class="col-sm-5"><img src="@ViewBag.DatosEquipo.Escudo"></div>
     <div class="col-sm-5"><img src="@ViewBag.DatosEquipo.Escudo"></div>
@@ -21,25 +22,22 @@
     <p class="lead">
       <a class="btn btn-primary btn-lg" href='Url.Action("AgregarJugador", "Home", @ViewBag.DatosEquipo.IdEquipo)' role="button">Agregar Jugador</a>
     </p>
-  </div>
-
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">#</th>
-          <th scope="col">Nombre</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-  
-  @{
+  </div>  
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
         foreach(Jugador jug in @ViewBag.ListaJugadores){
           <tbody>
             <tr>
-              <td height=100 width=100><img src="@jug.Foto" height=100 width=100></td>
-              <td>@jug.NumCamiseta</td>
-              <td>@jug.Nombre</td>
+              <td><img src=jug.Foto></td>
+              <td>jug.NumCamiseta</td>
+              <td>jug.Nombre</td>
               <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   Ver Detalle
@@ -68,11 +66,12 @@
               </td>
             </tr>
           </tbody>
+        </table>
         }
-      </table>
+      
     </body>
-  }
 </html>
+}
 
 <script>
   function MostrarJugador(IdJ)

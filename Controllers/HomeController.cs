@@ -90,7 +90,7 @@ namespace TP06_Qatar.Controllers
         [HttpPost] 
         public IActionResult GuardarJugador(string Nombre, string Nacimiento, IFormFile Foto, string Equipo)
         {
-            DateTime FechaNacimiento = DateTime.Parse(Fecha);
+            DateTime FechaNacimiento = DateTime.Parse(Nacimiento);
             Jugador Jug = new Jugador();
             Jug.Nombre = Nombre;
             if(Foto.Length > 0)
@@ -100,10 +100,10 @@ namespace TP06_Qatar.Controllers
                 {
                     Foto.CopyToAsync(stream);
                 }
-                eq.Foto = "/" + Foto.FileName;
+                Jug.Foto = "/" + Foto.FileName;
             }
-            eq.Equipo = Equipo;
-            BD.AgregarEquipo(eq);
+            Jug.EquipoActual = Equipo;
+            BD.AgregarJugador(Jug);
             
             return VerDetalleEquipo(Jug.IdEquipo);
         }
