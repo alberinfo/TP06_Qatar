@@ -5,12 +5,19 @@ namespace TP06_Qatar.Models
 {
     public class Jugador
     {
+        private int _numCamiseta;
         private int _idJugador;
         private int _idEquipo;
         private string _nombre;
         private DateTime _fechaNacimiento;
         private string _foto;
         private string _equipoActual;
+
+        public int NumCamiseta
+        {
+            get { return _numCamiseta; }
+            set { _numCamiseta = value; }
+        }
 
         public int IdJugador
         {
@@ -26,8 +33,8 @@ namespace TP06_Qatar.Models
 
         public string Nombre
         {
-            get { return Nombre; }
-            set { Nombre = value; }
+            get { return _nombre; }
+            set { _nombre = value; }
         }
 
         public DateTime FechaNacimiento
@@ -50,6 +57,7 @@ namespace TP06_Qatar.Models
 
         public Jugador()
         {
+            NumCamiseta = -1;
             IdJugador = -1;
             IdEquipo = -1;
             Nombre = "";
