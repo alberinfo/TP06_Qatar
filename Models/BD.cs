@@ -8,15 +8,14 @@ namespace TP06_Qatar.Models
 {
     public static class BD
     {
-        private static string _connectionString = @"Server=A-CIDI-143;DataBase=Qatar;Trusted_Connection=True";
+        private static string _connectionString = @"Server=A-CIDI-106;DataBase=Qatar;Trusted_Connection=True";
 
         public static void AgregarJugador(Jugador jug)
         {
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
                 string sqlQuery = "INSERT INTO Jugadores (IdEquipo, Nombre, FechaNacimiento, Foto, EquipoActual) VALUES(@IdEquipo, @Nombre, @FechaNacimiento, @Foto, @EquipoActual)";
-                //int affectedRows = db.Execute(sqlQuery , new {IdEquipo = jug.IdEquipo, Nombre = jug.Nombre, FechaNacimiento = jug.FechaNacimiento, Foto = jug.Foto, EquipoActual = jug.EquipoActual});
-                int affectedRows = db.Execute(sqlQuery, jug);
+                int affectedRows = db.Execute(sqlQuery , new {IdEquipo = jug.IdEquipo, Nombre = jug.Nombre, FechaNacimiento = jug.FechaNacimiento, Foto = jug.Foto, EquipoActual = jug.EquipoActual});
             }
         }
 
@@ -24,9 +23,8 @@ namespace TP06_Qatar.Models
         {
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
-                string sqlQuery = "INSERT INTO Equipos (Nombre, Escudo, Camiseta, Continente, CopasGanadas) VALUES(@Nombre, @Escudo, @Camiseta, @Continente, @CopasGanadas)";
-                //int affectedRows = db.Execute(sqlQuery, new {Nombre = eq.Nombre, Escudo = eq.Escudo, Camiseta = eq.Camiseta, IdContinente = eq.Continente, CopasGanadas = eq.CopasGanadas});
-                int affectedRows = db.Execute(sqlQuery, eq);
+                string sqlQuery = "INSERT INTO Equipos (Nombre, Escudo, Camiseta, IdContinente, CopasGanadas) VALUES(@IdEquipo, @Nombre, @FechaNacimiento, @Foto, @EquipoActual)";
+                int affectedRows = db.Execute(sqlQuery, new {Nombre = eq.Nombre, Escudo = eq.Escudo, Camiseta = eq.Camiseta, IdContinente = eq.Continente, CopasGanadas = eq.CopasGanadas});
             }
         }
 
