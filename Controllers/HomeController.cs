@@ -34,52 +34,76 @@ namespace TP06_Qatar.Controllers
             ViewBag.DatosEquipo = BD.VerInfoEquipo(IdEquipo);
             ViewBag.ListaJugadores = BD.ListarJugadores(IdEquipo);
 
-            return View("DetalleEquipo");
+            return View();
         }
 
-        public IActionResult AgregarJugador()
+        public IActionResult AgregarEquipo()
         {
             return View();
         }
 
+        //Copas ganadas es string porque no se puede convertir a int desde el cshtml.
         [HttpPost]
-        public IActionResult GuardarEquipo(Equipo eq, IFormFile ArchivoFoto)
+        public IActionResult GuardarEquipo(string Nombre, IFormFile Escudo, IFormFile Camiseta, string Continente, string Copas)
         {
-            if(ArchivoFoto.Length>0)
+            int CopasGanadas = int.Parse(Copas);
+            Equipo eq = new Equipo();
+            eq.Nombre = Nombre;
+            if(Escudo.Length > 0)
             {
-                string wwwRootLocal = this.Environment.WebRootPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
+                string wwwRootLocal = this.Environment.WebRootPath + '/' + Escudo.FileName;
                 using(var stream = System.IO.File.Create(wwwRootLocal))
                 {
-                    (ArchivoFoto).CopyToAsync(stream);
+                    Escudo.CopyToAsync(stream);
                 }
-                eq.Escudo = ArchivoFoto.FileName;
+                eq.Escudo = "/" + Escudo.FileName;
             }
+
+            if(Camiseta.Length > 0)
+            {
+                string wwwRootLocal = this.Environment.WebRootPath + '/' + Camiseta.FileName;
+                using(var stream = System.IO.File.Create(wwwRootLocal))
+                {
+                    (Camiseta).CopyToAsync(stream);
+                }
+                eq.Camiseta = "/" + Camiseta.FileName;
+            }
+
+            eq.Continente = Continente;
+            eq.CopasGanadas = CopasGanadas;
             BD.AgregarEquipo(eq);
+
             return Index();
         }
 
         public IActionResult VerDetalleJugador(int IdJugador){  
             ViewBag.DatosJugador = BD.VerInfoJugador(IdJugador);
 
-            return View("DetalleJugador");
+            return View();
         }
 
         public IActionResult AgregarJugador(int IdEquipo){
             ViewBag.IdEquipo = IdEquipo;
-            return View("PlayerForm");
+            return View("AgregarJugador");
         }
+
         [HttpPost] 
-        public IActionResult GuardarJugador(Jugador Jug, IFormFile ArchivoFoto){
-            if(ArchivoFoto.Length>0)
+        public IActionResult GuardarJugador(string Nombre, string Nacimiento, IFormFile Foto, string Equipo)
+        {
+            DateTime FechaNacimiento = DateTime.Parse(Fecha);
+            Jugador Jug = new Jugador();
+            Jug.Nombre = Nombre;
+            if(Foto.Length > 0)
             {
-                string wwwRootLocal = this.Environment.WebRootPath + @"\wwwroot\"+(ArchivoFoto).FileName; 
+                string wwwRootLocal = this.Environment.WebRootPath + '/' + Foto.FileName;
                 using(var stream = System.IO.File.Create(wwwRootLocal))
                 {
-                    (ArchivoFoto).CopyToAsync(stream);
+                    Foto.CopyToAsync(stream);
                 }
-                Jug.Foto = ArchivoFoto.FileName;
+                eq.Foto = "/" + Foto.FileName;
             }
-            BD.AgregarJugador(Jug);
+            eq.Equipo = Equipo;
+            BD.AgregarEquipo(eq);
             
             return VerDetalleEquipo(Jug.IdEquipo);
         }
