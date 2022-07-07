@@ -1,0 +1,16 @@
+<form method="POST" action='@Url.Action("GuardarJugador", "Home")' enctype="multipart/form-data" requiered>
+    <div class="form-group">
+        <label for="Nombre">Nombre del jugador:</label>
+        <input type="text" class="form-control" id="Nombre" name="Nombre">
+
+        <label for="Nacimiento">Fecha de nacimiento del jugador:</label>
+        <input type="text" class="form-control" id="Nacimiento" name="Nacimiento">
+
+        <label for="Foto">Foto del jugador:</label>
+        <input type="file" class="form-control-file" id="Foto" name="Foto">
+
+        <label for="Eqiupo">Equipo al que pertenece:</label>
+        <input type="text" class="form-control" id="Equipo" name="Equipo">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

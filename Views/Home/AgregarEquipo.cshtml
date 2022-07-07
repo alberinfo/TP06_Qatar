@@ -1,0 +1,19 @@
+<form method="POST" action='@Url.Action("GuardarEquipo", "Home")' enctype="multipart/form-data" requiered>
+    <div class="form-group">
+        <label for="Nombre">Nombre del equipo:</label>
+        <input type="text" class="form-control" id="Nombre" name="Nombre">
+
+        <label for="Escudo">Escudo del equipo:</label>
+        <input type="file" class="form-control-file" id="Escudo" name="Escudo">
+
+        <label for="Camiseta">Camiseta de los jugadores:</label>
+        <input type="file" class="form-control-file" id="Camiseta" name="Camiseta">
+
+        <label for="Continente">Continente del equipo:</label>
+        <input type="text" class="form-control" id="Continente" name="Continente">
+
+        <label for="Copas">Copas ganadas:</label>
+        <input type="text" class="form-control" id="Copas" name="Copas">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
