@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+
 namespace TP06_Qatar.Models
 {
     public class Equipo
@@ -8,7 +9,7 @@ namespace TP06_Qatar.Models
         private string _nombre;
         private string _escudo;
         private string _camiseta;
-        private string _Continente;
+        private int _idContinente;
         private int _copasGanadas;
 
         public int IdEquipo
@@ -35,10 +36,10 @@ namespace TP06_Qatar.Models
             set { _camiseta = value; }
         }
 
-        public string Continente
+        public int IdContinente
         {
-            get { return _Continente; }
-            set { _Continente = value; }
+            get { return _idContinente; }
+            set { _idContinente = value; }
         }
 
         public int CopasGanadas
@@ -53,17 +54,17 @@ namespace TP06_Qatar.Models
             Nombre = "";
             Escudo = "";
             Camiseta = "";
-            Continente = "";
+            IdContinente = 0;
             CopasGanadas = 0;
         }
 
-        public Equipo(int id, string nom, string esc, string cam, string cont, int cop)
+        public Equipo(int id, string nom, string esc, string cam, int cont, int cop)
         {
             IdEquipo = id;
             Nombre = nom;
             Escudo = esc;
             Camiseta = cam;
-            Continente = cont;
+            IdContinente = cont;
             CopasGanadas = cop;
         }
     }

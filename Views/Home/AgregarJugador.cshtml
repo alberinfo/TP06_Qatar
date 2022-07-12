@@ -1,16 +1,62 @@
-<form method="POST" action='@Url.Action("GuardarJugador", "Home")' enctype="multipart/form-data" requiered>
+<form class="needs-validation" method="POST" action='@Url.Action("GuardarJugador", "Home", new {IdEquipo = @ViewBag.IdEquipo})' enctype="multipart/form-data">
     <div class="form-group">
         <label for="Nombre">Nombre del jugador:</label>
-        <input type="text" class="form-control" id="Nombre" name="Nombre">
+        <input type="text" class="form-control" id="Nombre" name="Nombre" required>
 
         <label for="Nacimiento">Fecha de nacimiento del jugador:</label>
-        <input type="text" class="form-control" id="Nacimiento" name="Nacimiento">
+        <input type="date" class="form-control" id="Nacimiento" name="Nacimiento" required>
 
         <label for="Foto">Foto del jugador:</label>
-        <input type="file" class="form-control-file" id="Foto" name="Foto">
+        <input type="file" class="form-control-file" id="Foto" name="Foto" accept=".jpg, .jpeg, .png" required>
 
-        <label for="Eqiupo">Equipo al que pertenece:</label>
-        <input type="text" class="form-control" id="Equipo" name="Equipo">
+        <label for="Camiseta">Numero de camiseta:</label>
+        <input type="text" class="form-control" id="Camiseta" name="Camiseta" required>
+        <div class="invalid-tooltip">
+            Ya existe un jugador con este numero de camisa
+        </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    (function() {
+        window.addEventListener('load', function() {
+            'use strict';
+
+            //Initiate tooltips
+            $(".invalid-tooltip").tooltip();
+
+            var forms = document.getElementsByClassName("needs-validation");
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    var formData = new FormData(form);
+                    var input = formData.get('Camiseta');
+                    var listaJugadores = @Html.Raw(Json.Serialize(@ViewBag.ListaJugadores));
+
+                    //si el elemento ya existe o la entrada de nombre esta vacia()
+                    if(comprobarExistenciaPrevia(input, listaJugadores) == true)
+                    {
+                        alert("ya existe un jugador con el numero de camiseta " + input.toString());
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $(".invalid-tooltip").tooltip('show');
+                        setTimeout(function(){
+                            $(".invalid-tooltip").tooltip('hide');
+                        }, 2500);
+                    } else {
+                        event.submit();
+                    }
+                }, false);
+            }, false);
+        }, false);
+    })();
+
+    function comprobarExistenciaPrevia(element, listaEquipos)
+    {
+        var res = false;
+        var val = Array.prototype.filter.call(listaEquipos, function(x){
+            if(x.numCamiseta == element) res = true;
+        });
+        return res;
+    }
+</script>

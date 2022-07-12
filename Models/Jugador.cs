@@ -37,10 +37,10 @@ namespace TP06_Qatar.Models
             set { _nombre = value; }
         }
 
-        public DateTime FechaNacimiento
+        public string FechaNacimiento
         {
-            get { return _fechaNacimiento; }
-            set { _fechaNacimiento = value; }
+            get { return _fechaNacimiento.ToShortDateString(); }
+            set { _fechaNacimiento = DateTime.Parse(value); }
         }
 
         public string Foto
@@ -61,7 +61,7 @@ namespace TP06_Qatar.Models
             IdJugador = -1;
             IdEquipo = -1;
             Nombre = "";
-            FechaNacimiento = DateTime.Parse("1/1/1"); //Good luck with this
+            FechaNacimiento = "1/1/1"; //Good luck with this
             Foto = "";
             EquipoActual = "";
         }

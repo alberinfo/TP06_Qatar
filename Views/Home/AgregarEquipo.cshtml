@@ -1,19 +1,82 @@
-<form method="POST" action='@Url.Action("GuardarEquipo", "Home")' enctype="multipart/form-data" requiered>
+<form class="needs-validation" method="POST" action='@Url.Action("GuardarEquipo", "Home")' enctype="multipart/form-data">
     <div class="form-group">
         <label for="Nombre">Nombre del equipo:</label>
-        <input type="text" class="form-control" id="Nombre" name="Nombre">
+        <input type="text" class="form-control" id="Nombre" name="Nombre" required>
+        <div class="invalid-tooltip" data-toggle="tooltip">
+            Este equipo ya existe!
+      </div>
+    </div>
 
+    <div class="form-group">
         <label for="Escudo">Escudo del equipo:</label>
-        <input type="file" class="form-control-file" id="Escudo" name="Escudo">
+        <input type="file" class="form-control-file" id="Escudo" name="Escudo" accept=".jpg, .jpeg, .png" required>
+    </div>
 
+    <div class="form-group">
         <label for="Camiseta">Camiseta de los jugadores:</label>
-        <input type="file" class="form-control-file" id="Camiseta" name="Camiseta">
+        <input type="file" class="form-control-file" id="Camiseta" name="Camiseta" accept=".jpg, .jpeg, .png" required>
+    </div>
 
-        <label for="Continente">Continente del equipo:</label>
-        <input type="text" class="form-control" id="Continente" name="Continente">
+    <div class="form-group">
+        <label for="IdContinente">Continente del equipo:</label>
+        <select class="custom-select" id="IdContinente" name="IdContinente" required>
+            <option value="-1">Seleccione el continente</option>
 
+            @{
+                @foreach (Continente cont in @ViewBag.ListaContinentes)
+                {
+                    <option value=@cont.IdContinente>@cont.Nombre</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
         <label for="Copas">Copas ganadas:</label>
-        <input type="text" class="form-control" id="Copas" name="Copas">
+        <input type="text" class="form-control" id="Copas" name="Copas" required>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    (function() {
+        window.addEventListener('load', function() {
+            'use strict';
+
+            //Initiate tooltips
+            $(".invalid-tooltip").tooltip();
+
+            var forms = document.getElementsByClassName("needs-validation");
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    var formData = new FormData(form);
+                    var input = formData.get('Nombre');
+                    var listaEquipos = @Html.Raw(Json.Serialize(@ViewBag.ListaEquipos));
+
+                    //si el elemento ya existe o la entrada de nombre esta vacia()
+                    if(comprobarExistenciaPrevia(input.toLowerCase(), listaEquipos) == true)
+                    {
+                        alert("El equipo ya existe");
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $(".invalid-tooltip").tooltip('show');
+                        setTimeout(function(){
+                            $(".invalid-tooltip").tooltip('hide');
+                        }, 2500);
+                    } else {
+                        event.submit();
+                    }
+                }, false);
+            }, false);
+        }, false);
+    })();
+
+    function comprobarExistenciaPrevia(element, listaEquipos)
+    {
+        var res = false;
+        var val = Array.prototype.filter.call(listaEquipos, function(x){
+            if(x.nombre.toLowerCase() == element) res = true;
+        });
+        return res;
+    }
+</script>
