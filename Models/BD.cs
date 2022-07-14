@@ -14,7 +14,7 @@ namespace TP06_Qatar.Models
         {
             using(SqlConnection db = new SqlConnection(_connectionString))
             {
-                string sqlQuery = "INSERT INTO Jugadores (IdEquipo, Nombre, FechaNacimiento, Foto, EquipoActual, NumCamiseta) VALUES(@IdEquipo, @Nombre, @FechaNacimiento, @Foto, @EquipoActual, @NumCamiseta)";
+                string sqlQuery = "INSERT INTO Jugadores (IdEquipo, Nombre, FechaNacimiento, Foto, EquipoActual, NumCamiseta) VALUES(@IdEquipo, @Nombre, @FechaNacimientoDateTime, @Foto, @EquipoActual, @NumCamiseta)";
                 //int affectedRows = db.Execute(sqlQuery , new {IdEquipo = jug.IdEquipo, Nombre = jug.Nombre, FechaNacimiento = jug.FechaNacimiento, Foto = jug.Foto, EquipoActual = jug.EquipoActual});
                 int affectedRows = db.Execute(sqlQuery, jug);
             }

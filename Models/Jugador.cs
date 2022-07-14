@@ -43,6 +43,12 @@ namespace TP06_Qatar.Models
             set { _fechaNacimiento = DateTime.Parse(value); }
         }
 
+        public DateTime FechaNacimientoDateTime
+        {
+            get {return _fechaNacimiento; }
+            set { _fechaNacimiento = value; }
+        }
+
         public string Foto
         {
             get { return _foto; }

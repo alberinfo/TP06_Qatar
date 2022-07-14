@@ -24,6 +24,18 @@ namespace TP06_Qatar.Controllers
             Environment = environment;
         }
 
+        public async void EscribirArchivo(IFormFile archivo, string path)
+        {
+            if(archivo.Length > 0)
+            {
+                using(Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await archivo.CopyToAsync(stream);
+                }
+            }
+            return;
+        }
+
         public IActionResult Index()
         {
             ViewBag.ListaEquipos = BD.ListarEquipos();
@@ -53,32 +65,22 @@ namespace TP06_Qatar.Controllers
             int CopasGanadas = int.Parse(Copas);
             Equipo eq = new Equipo();
             eq.Nombre = Nombre;
-            if(Escudo.Length > 0)
-            {
-                string wwwRootLocal = this.Environment.WebRootPath + "/img/Escudos/" + Nombre.ToLower() + Path.GetExtension(Escudo.FileName);
-                using(Stream stream = new FileStream(wwwRootLocal, FileMode.Create))
-                {
-                    Escudo.CopyToAsync(stream);
-                }
-                eq.Escudo = "/img/Escudos/" + Nombre.ToLower() + Path.GetExtension(Escudo.FileName);
-            }
 
-            if(Camiseta.Length > 0)
-            {
-                string wwwRootLocal = this.Environment.WebRootPath + "/img/Camisetas/" + Nombre.ToLower() + Path.GetExtension(Camiseta.FileName);
-                using(Stream stream = new FileStream(wwwRootLocal, FileMode.Create))
-                {
-                    Escudo.CopyToAsync(stream);
-                }
-                eq.Escudo = "/img/Camisetas/" + Nombre.ToLower() + Path.GetExtension(Escudo.FileName);
-            }
+            string wwwRootLocal =  "/img/Escudos/" + Nombre.ToLower() + Path.GetExtension(Escudo.FileName);
+            EscribirArchivo(Escudo, this.Environment.WebRootPath + wwwRootLocal);            
+            eq.Escudo = wwwRootLocal;
+
+            wwwRootLocal = "/img/Camisetas/" + Nombre.ToLower() + Path.GetExtension(Camiseta.FileName);
+            EscribirArchivo(Camiseta, this.Environment.WebRootPath + wwwRootLocal);            
+            eq.Camiseta = wwwRootLocal;
 
             eq.IdContinente = IdContinente;
             eq.CopasGanadas = CopasGanadas;
             BD.AgregarEquipo(eq);
 
-            ViewBag.ListaEquipos = BD.ListarEquipos();
-            return View("Index");
+            //ViewBag.ListaEquipos = BD.ListarEquipos();
+            //return View("Index");
+            return Redirect(Url.Action("Index", "Home"));
         }
 
         public IActionResult VerDetalleJugador(int IdJugador){  
@@ -101,22 +103,17 @@ namespace TP06_Qatar.Controllers
         [HttpPost] 
         public IActionResult GuardarJugador(string Nombre, string Nacimiento, IFormFile Foto, int IdEquipo, int Camiseta)
         {
-            DateTime FechaNacimiento = DateTime.Parse(Nacimiento);
             Jugador Jug = new Jugador();
             Jug.Nombre = Nombre;
             Jug.EquipoActual = BD.BuscarNombreEquipo(IdEquipo);
             Jug.NumCamiseta = Camiseta;
+            Jug.FechaNacimiento = Nacimiento;
             Jug.IdEquipo = IdEquipo;
 
-            if(Foto.Length > 0)
-            {
-                string wwwRootLocal = this.Environment.WebRootPath + "/img/Jugadores/" + Jug.EquipoActual.ToLower() + Jug.NumCamiseta.ToString() + Path.GetExtension(Foto.FileName);
-                using(Stream stream = new FileStream(wwwRootLocal, FileMode.Create))
-                {
-                    Foto.CopyToAsync(stream);
-                }
-                Jug.Foto = "/img/Jugadores/" + Jug.EquipoActual.ToLower() + Jug.NumCamiseta.ToString() + Path.GetExtension(Foto.FileName);
-            }
+            string wwwRootLocal = "/img/Jugadores/" + Jug.EquipoActual.ToLower() + Jug.NumCamiseta.ToString() + Path.GetExtension(Foto.FileName);
+            EscribirArchivo(Foto, this.Environment.WebRootPath + wwwRootLocal);
+            Jug.Foto = wwwRootLocal;
+
             BD.AgregarJugador(Jug);
             
             return Redirect(Url.Action("VerDetalleEquipo", "Home", new {IdEquipo = Jug.IdEquipo}));
