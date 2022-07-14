@@ -38,6 +38,14 @@ namespace TP06_Qatar.Controllers
 
         public IActionResult Index()
         {
+            if(!Directory.Exists(this.Environment.WebRootPath + "/img"))
+            {
+                Directory.CreateDirectory(this.Environment.WebRootPath + "/img"); //Create parent img directory
+                //If parent img folder is not present then subfolders are not either
+                Directory.CreateDirectory(this.Environment.WebRootPath + "/img/Escudos");
+                Directory.CreateDirectory(this.Environment.WebRootPath + "/img/Camisetas");
+                Directory.CreateDirectory(this.Environment.WebRootPath + "/img/Jugadores");
+            }
             ViewBag.ListaEquipos = BD.ListarEquipos();
             return View();
         }
@@ -45,7 +53,7 @@ namespace TP06_Qatar.Controllers
         public IActionResult VerDetalleEquipo(int IdEquipo){
 
             ViewBag.DatosEquipo = BD.VerInfoEquipo(IdEquipo);
-            ViewBag.NombreContinente = BD.BuscarNombreContinente(ViewBag.DatosEquipo.IdEquipo);
+            ViewBag.NombreContinente = BD.BuscarNombreContinente(IdEquipo);
             ViewBag.ListaJugadores = BD.ListarJugadores(IdEquipo);
 
             return View();
@@ -60,22 +68,16 @@ namespace TP06_Qatar.Controllers
 
         //Copas ganadas es string porque no se puede convertir a int desde el cshtml.
         [HttpPost]
-        public IActionResult GuardarEquipo(string Nombre, IFormFile Escudo, IFormFile Camiseta, int IdContinente, string Copas)
+        public IActionResult GuardarEquipo(Equipo eq, IFormFile ArchivoEscudo, IFormFile ArchivoCamiseta)
         {
-            int CopasGanadas = int.Parse(Copas);
-            Equipo eq = new Equipo();
-            eq.Nombre = Nombre;
-
-            string wwwRootLocal =  "/img/Escudos/" + Nombre.ToLower() + Path.GetExtension(Escudo.FileName);
-            EscribirArchivo(Escudo, this.Environment.WebRootPath + wwwRootLocal);            
+            string wwwRootLocal =  "/img/Escudos/" + eq.Nombre.ToLower() + Path.GetExtension(ArchivoEscudo.FileName);
+            EscribirArchivo(ArchivoEscudo, this.Environment.WebRootPath + wwwRootLocal);            
             eq.Escudo = wwwRootLocal;
 
-            wwwRootLocal = "/img/Camisetas/" + Nombre.ToLower() + Path.GetExtension(Camiseta.FileName);
-            EscribirArchivo(Camiseta, this.Environment.WebRootPath + wwwRootLocal);            
+            wwwRootLocal = "/img/Camisetas/" + eq.Nombre.ToLower() + Path.GetExtension(ArchivoCamiseta.FileName);
+            EscribirArchivo(ArchivoCamiseta, this.Environment.WebRootPath + wwwRootLocal);            
             eq.Camiseta = wwwRootLocal;
 
-            eq.IdContinente = IdContinente;
-            eq.CopasGanadas = CopasGanadas;
             BD.AgregarEquipo(eq);
 
             //ViewBag.ListaEquipos = BD.ListarEquipos();
@@ -101,14 +103,9 @@ namespace TP06_Qatar.Controllers
         }
 
         [HttpPost] 
-        public IActionResult GuardarJugador(string Nombre, string Nacimiento, IFormFile Foto, int IdEquipo, int Camiseta)
+        public IActionResult GuardarJugador(Jugador Jug, IFormFile Foto)
         {
-            Jugador Jug = new Jugador();
-            Jug.Nombre = Nombre;
-            Jug.EquipoActual = BD.BuscarNombreEquipo(IdEquipo);
-            Jug.NumCamiseta = Camiseta;
-            Jug.FechaNacimiento = Nacimiento;
-            Jug.IdEquipo = IdEquipo;
+            Jug.EquipoActual = BD.BuscarNombreEquipo(Jug.IdEquipo);
 
             string wwwRootLocal = "/img/Jugadores/" + Jug.EquipoActual.ToLower() + Jug.NumCamiseta.ToString() + Path.GetExtension(Foto.FileName);
             EscribirArchivo(Foto, this.Environment.WebRootPath + wwwRootLocal);
@@ -121,7 +118,8 @@ namespace TP06_Qatar.Controllers
 
         public IActionResult EliminarJugador(int IdJugador, int IdEquipo){
             BD.EliminarJugador(IdJugador);
-            return VerDetalleEquipo(IdEquipo);
+            return Redirect(Url.Action("VerDetalleEquipo", "Home", new {IdEquipo = IdEquipo}));
+            //return VerDetalleEquipo(IdEquipo);
         }
 
         public IActionResult Privacy()

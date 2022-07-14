@@ -42,7 +42,7 @@
             <td>@jug.Nombre</td>
             <td>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalJugador" id="buttonModal"
-              value=@jug.IdJugador onclick="cargarDatosModal(this.value)">
+              value=@jug.IdJugador onclick="cargarDatosModal(this.value, @ViewBag.DatosEquipo.IdEquipo)">
                 Ver Detalle
               </button>
             </td>
@@ -99,7 +99,7 @@
 </body>
 
 <script>
-    function cargarDatosModal(IdJ) {
+    function cargarDatosModal(IdJ, IdE) {
     $.ajax({
       type: 'POST',
       dataType: "JSON",
@@ -111,7 +111,7 @@
           $("#FotoJugador").attr("src", response.foto);
           $("#NumCamiseta").html("Numero de camiseta: " + response.numCamiseta);
           $("#FechaNacimiento").html("Fecha de nacimiento: " + response.fechaNacimiento);
-          $("#BtnConfirmarBorrado").attr("href", '@Url.Action("EliminarJugador", "Home")'+"?IdJugador="+IdJ.toString()+"&IdEquipo="+parseInt(@ViewBag.IdEquipo).toString());
+          $("#BtnConfirmarBorrado").attr("href", '@Url.Action("EliminarJugador", "Home")'+"?IdJugador="+IdJ.toString()+"&IdEquipo="+IdE.toString());
         }
     })
   }
