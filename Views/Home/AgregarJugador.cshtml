@@ -11,8 +11,8 @@
 
         <label for="Camiseta">Numero de camiseta:</label>
         <input type="text" class="form-control" id="Camiseta" name="NumCamiseta" required>
-        <div class="invalid-tooltip">
-            Ya existe un jugador con este numero de camisa
+        <div class="invalid-tooltip" data-toggle="tooltip">
+            Ya existe un jugador con este numero de camiseta!
         </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -30,19 +30,19 @@
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {
                     var formData = new FormData(form);
-                    var input = formData.get('Camiseta');
+                    var input = formData.get('NumCamiseta');
                     var listaJugadores = @Html.Raw(Json.Serialize(@ViewBag.ListaJugadores));
 
                     //si el elemento ya existe o la entrada de nombre esta vacia()
                     if(comprobarExistenciaPrevia(input, listaJugadores) == true)
                     {
-                        alert("ya existe un jugador con el numero de camiseta " + input.toString());
                         event.preventDefault();
                         event.stopPropagation();
-                        $(".invalid-tooltip").tooltip('show');
+                        $(".invalid-tooltip").css("position", "relative");
+                        $(".invalid-tooltip").css("display", "inline-block");
                         setTimeout(function(){
-                            $(".invalid-tooltip").tooltip('hide');
-                        }, 2500);
+                            $(".invalid-tooltip").css("display", "none");
+                        }, 3000);
                     } else {
                         event.submit();
                     }

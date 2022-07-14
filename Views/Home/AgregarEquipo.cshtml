@@ -4,7 +4,7 @@
         <input type="text" class="form-control" id="Nombre" name="Nombre" required>
         <div class="invalid-tooltip" data-toggle="tooltip">
             Este equipo ya existe!
-      </div>
+        </div>
     </div>
 
     <div class="form-group">
@@ -56,13 +56,14 @@
                     //si el elemento ya existe o la entrada de nombre esta vacia()
                     if(comprobarExistenciaPrevia(input.toLowerCase(), listaEquipos) == true)
                     {
-                        alert("El equipo ya existe");
+                        //alert("El equipo ya existe");
                         event.preventDefault();
                         event.stopPropagation();
-                        $(".invalid-tooltip").tooltip('show');
+                        $(".invalid-tooltip").css("position", "relative");
+                        $(".invalid-tooltip").css("display", "inline-block");
                         setTimeout(function(){
-                            $(".invalid-tooltip").tooltip('hide');
-                        }, 2500);
+                            $(".invalid-tooltip").css("display", "none");
+                        }, 3000);
                     } else {
                         event.submit();
                     }
