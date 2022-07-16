@@ -2,15 +2,23 @@
     <div class="form-group">
         <label for="Nombre">Nombre del jugador:</label>
         <input type="text" class="form-control" id="Nombre" name="Nombre" required>
-
+    </div>
+    <div class="form-group">
         <label for="Nacimiento">Fecha de nacimiento del jugador:</label>
         <input type="date" class="form-control" id="Nacimiento" name="FechaNacimiento" required>
-
-        <label for="Foto">Foto del jugador:</label>
-        <input type="file" class="form-control-file" id="Foto" name="Foto" required>
-
+    </div>
+    <div class="form-group">
+        <!--<label for="Foto">Foto del jugador:</label>
+        <input type="file" class="fomr-control-file" id="Foto" name="Foto" required> -->
+        <label>Foto del jugador:</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="Foto" name="Foto" required>
+            <label class="custom-file-label" for="Foto" data-browse="Buscar">Seleccione el archivo</label>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="Camiseta">Numero de camiseta:</label>
-        <input type="text" class="form-control" id="Camiseta" name="NumCamiseta" required>
+        <input type="number" class="form-control" id="Camiseta" name="NumCamiseta" required>
         <div class="invalid-tooltip" data-toggle="tooltip">
             Ya existe un jugador con este numero de camiseta!
         </div>
@@ -26,6 +34,17 @@
             //Initiate tooltips
             $(".invalid-tooltip").tooltip();
 
+            //Set file input name responsive
+            var FileInputs = document.getElementsByClassName("custom-file-input");
+            Array.prototype.filter.call(FileInputs, function(FileInput){
+                FileInput.addEventListener('change', function(event){
+                    //Gets the path + file name and cuts out the path
+                    var fileName = $(FileInput).val().split("\\").pop();
+                    $(FileInput).siblings(".custom-file-label").addClass("selected").html(fileName.toString());
+                }, false);
+            }, false);
+
+            //enable checking at submit
             var forms = document.getElementsByClassName("needs-validation");
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {

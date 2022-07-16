@@ -24,6 +24,10 @@ namespace TP06_Qatar.Controllers
             Environment = environment;
         }
 
+        //Explicacion: CopyToAsync es una funcion asincrona, ordena la escritura del archivo y luego continua ejecutando
+        //             Esto causa que si se retorna de la funcion que llama al CopyToAsync antes de que la escritura
+        //             Haya terminado, se cierra el archivo y queda corrupto / sin escribir. Esta funcion fuerza
+        //             a la finalizacion de CopyToAsync, asegurandose por lo tanto que el archivo este escrito
         public async void EscribirArchivo(IFormFile archivo, string path)
         {
             if(archivo.Length > 0)
@@ -117,6 +121,9 @@ namespace TP06_Qatar.Controllers
         }
 
         public IActionResult EliminarJugador(int IdJugador, int IdEquipo){
+            Jugador jug = BD.VerInfoJugador(IdJugador);
+            System.IO.File.Delete(this.Environment.WebRootPath + jug.Foto);
+
             BD.EliminarJugador(IdJugador);
             return Redirect(Url.Action("VerDetalleEquipo", "Home", new {IdEquipo = IdEquipo}));
             //return VerDetalleEquipo(IdEquipo);

@@ -8,13 +8,19 @@
     </div>
 
     <div class="form-group">
-        <label for="Escudo">Escudo del equipo:</label>
-        <input type="file" class="form-control-file" id="Escudo" name="ArchivoEscudo" required>
+        <label>Escudo del equipo:</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="Escudo" name="ArchivoEscudo" required>
+            <label class="custom-file-label" for="Escudo" data-browse="Buscar">Seleccione el archivo</label>
+        </div>
     </div>
 
     <div class="form-group">
-        <label for="Camiseta">Camiseta de los jugadores:</label>
-        <input type="file" class="form-control-file" id="Camiseta" name="ArchivoCamiseta" required>
+        <label>Camiseta de los jugadores:</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="Camiseta" name="ArchivoCamiseta" required>
+            <label class="custom-file-label" for="Camiseta" data-browse="Buscar">Seleccione el archivo</label>
+        </div>
     </div>
 
     <div class="form-group">
@@ -46,6 +52,17 @@
             //Initiate tooltips
             $(".invalid-tooltip").tooltip();
 
+            //Set file input name responsive
+            var FileInputs = document.getElementsByClassName("custom-file-input");
+            Array.prototype.filter.call(FileInputs, function(FileInput){
+                FileInput.addEventListener('change', function(event){
+                    //Gets the path + file name and cuts out the path
+                    var fileName = $(FileInput).val().split("\\").pop();
+                    $(FileInput).siblings(".custom-file-label").addClass("selected").html(fileName.toString());
+                }, false);
+            }, false);
+
+            //enable checking at submit
             var forms = document.getElementsByClassName("needs-validation");
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {

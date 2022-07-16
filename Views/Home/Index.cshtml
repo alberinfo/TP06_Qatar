@@ -14,11 +14,11 @@
 
 <body>
     @{
-        <div class="container-fluid">
-            <div class="row mx-auto">
+        <div class="container-fluid mx-auto">
+            <div class="row">
                 @foreach (Equipo eq in @ViewBag.ListaEquipos)
                 {
-                    <div class="col pb-4">
+                    <div class="col-auto pb-4">
                         <div class="card" style="width: 18rem;">
                             <img class="card-img-top" src=@eq.Escudo alt="Card image cap">
                             <div class="card-body">

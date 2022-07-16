@@ -12,19 +12,26 @@
 
 <body>
   <div class="jumbotron">
-    <div class="col-sm-5"><img src=@ViewBag.DatosEquipo.Escudo></div>
-    <div class="col-sm-5"><img src=@ViewBag.DatosEquipo.Escudo></div>
-    <h1 class="display-4">@ViewBag.DatosEquipo.Nombre</h1>
-    <p class="lead">Continente: @ViewBag.NombreContinente</p>
-    <p class="lead">Copas Ganadas: @ViewBag.DatosEquipo.CopasGanadas</p>
+    <div class="conatiner d-block">
+      <img src=@ViewBag.DatosEquipo.Escudo class="img-thumbnail mx-auto mw-50 h-auto">
+      <img src=@ViewBag.DatosEquipo.Camiseta class="img-thumbnail mx-auto mw-50 h-auto">
+    </div>
+    <hr class="my-4 pt-2">
+    <div class="container">
+      <h1 class="display-4 font-weight-bold text-center">@ViewBag.DatosEquipo.Nombre</h1>
+      <p class="lead text-center">Continente: @ViewBag.NombreContinente</p>
+      <p class="lead text-center">Jugadores Totales: @ViewBag.ListaJugadores.Count</p>
+      <p class="lead text-center">Copas Ganadas: @ViewBag.DatosEquipo.CopasGanadas</p>
+    </div>
     <hr class="my-4">
-    <p class="lead">
+    <p class="lead text-center">
       <a class="btn btn-primary btn-lg"
         href='@Url.Action("AgregarJugador", "Home", new {IdEquipo = @ViewBag.DatosEquipo.IdEquipo})' role="button">
         Agregar Jugador
       </a>
     </p>
   </div>
+
   <table class="table table-striped table-borderless table-hover">
     <thead class="thead-dark">
       <tr>
@@ -39,7 +46,7 @@
         @foreach (Jugador jug in @ViewBag.ListaJugadores)
         {
           <tr>
-            <td><img src=@jug.Foto style="height: 30vh; width: auto;"></td>
+            <td><img src=@jug.Foto class="img-thumbnail" style="height: 30vh; width: auto;"></td>
             <td>@jug.NumCamiseta</td>
             <td>@jug.Nombre</td>
             <td>
